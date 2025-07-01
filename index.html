@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>FLAMES Test</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #fefefe;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+    h1 {
+      color: #d42d2d;
+    }
+    input {
+      padding: 10px;
+      margin: 10px;
+      width: 300px;
+      max-width: 90%;
+      font-size: 16px;
+    }
+    button {
+      padding: 10px 20px;
+      background-color: #d42d2d;
+      color: white;
+      border: none;
+      font-size: 16px;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+    #result {
+      margin-top: 20px;
+      font-size: 24px;
+      font-weight: bold;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+  <h1>FLAMES Test</h1>
+  <input id="name1" type="text" placeholder="Enter Name 1" maxlength="100" />
+  <input id="name2" type="text" placeholder="Enter Name 2" maxlength="100" />
+  <button onclick="runFLAMES()">Check Relationship</button>
+  <div id="result"></div>
+
+  <script>
+    function runFLAMES() {
+      const name1 = document.getElementById("name1").value.toLowerCase().replace(/\s/g, "");
+      const name2 = document.getElementById("name2").value.toLowerCase().replace(/\s/g, "");
+
+      if (!name1 || !name2) {
+        document.getElementById("result").textContent = "Please enter both names.";
+        return;
+      }
+
+      let a = name1.split("");
+      let b = name2.split("");
+
+      for (let i = 0; i < a.length; i++) {
+        let index = b.indexOf(a[i]);
+        if (index !== -1) {
+          a[i] = "";
+          b[index] = "";
+        }
+      }
+
+      const unmatchedCount = (a.join("") + b.join("")).length;
+      let flames = ["F", "L", "A", "M", "E", "S"];
+
+      let index = 0;
+      while (flames.length > 1) {
+        index = (index + unmatchedCount - 1) % flames.length;
+        flames.splice(index, 1);
+      }
+
+      const meaning = {
+        F: "Friendship",
+        L: "Love",
+        A: "Affection",
+        M: "Marriage",
+        E: "Enemy",
+        S: "Sibling"
+      };
+
+      document.getElementById("result").textContent =
+        "Result: " + meaning[flames[0]];
+    }
+  </script>
+</body>
+</html>
